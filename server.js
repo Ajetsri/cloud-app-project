@@ -1,28 +1,25 @@
 const express = require("express");
+const Task = require("./models/Task");
 
+const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());//converts json to javascript for express
 
-const PORT = 3000;
-const tasks = [
-    {
-        id: 1,
-        task: "Learn Node.js"
-    },//task1
-    {
-        id: 2,
-        task: "Learn AWS"
-    },//task2
-    {
-        id: 3,
-        task: "Build Cloud Project"
-    },
-    {
-        id:4,
-        task: "Terraform"
-    }
-];//array - each object is stored inside{}
+const PORT = process.env.PORT || 3000;
+
+mongoose
+    .connect(process.env.MONGODB_URI)
+    .then(() => {
+        console.log("✅ Connected to MongoDB");
+    })
+    .catch((err) => {
+        console.error(" MongoDB Connection Error");
+        console.error(err);
+    });
+
+const tasks = [];//array - each object is stored inside{}
 
 app.get("/", (req, res) => {
     res.send("Cloud App Running Successfully 🚀");
@@ -55,6 +52,32 @@ app.get("/tasks/:id", (req, res) => {
     res.json(task);
 
 });
+
+//using MongoDB 
+
+app.post("/tasks", async (req, res) => {
+
+    try {
+
+        const newTask = await Task.create({
+            task: req.body.task
+        });
+
+        res.status(201).json(newTask);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});
+
+
+/*
+// below is for taking array data directly 
 //navigates to particular task based on id -1,2,..-/tasks/1
 app.post("/tasks", (req, res) => {
 
@@ -115,3 +138,4 @@ app.patch("/tasks/:id", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+*/
