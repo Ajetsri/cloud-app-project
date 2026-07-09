@@ -9,7 +9,7 @@ app.use(express.json());//converts json to javascript for express
 
 const PORT = process.env.PORT || 3000;
 
-mongoose
+mongoose 
     .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("✅ Connected to MongoDB");
@@ -134,8 +134,10 @@ app.patch("/tasks/:id", (req, res) => {
 
     res.json(task);
 
-});//patch
+});
+*/
+//patch
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-*/
+
