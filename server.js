@@ -38,24 +38,51 @@ app.get("/user", (req, res) => {
     });
 });//json format
 
-app.get("/tasks", (req, res) => {
-    res.json(tasks);
-});
-app.get("/tasks/:id", (req, res) => {
+app.get("/tasks", async (req, res) => {
 
-    const taskId = parseInt(req.params.id);
+    try {
 
-    const task = tasks.find(
-        task => task.id === taskId
-    );
+        const tasks = await Task.find();
 
-    res.json(task);
+        res.json(tasks);
 
-});
+    } catch (error) {
 
-//using MongoDB 
+        res.status(500).json({
+            message: error.message
+        });
 
-app.post("/tasks", async (req, res) => {
+    }
+
+});//mongoDB Get 
+app.get("/tasks/:id", async (req, res) => {
+
+    try {
+
+        const task = await Task.findById(req.params.id);
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found"
+            });
+        }
+
+        res.json(task);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});//get one task
+
+
+//using MongoDB post
+
+app.post("/tasks", async (req, res)  => {
 
     try {
 
@@ -74,6 +101,48 @@ app.post("/tasks", async (req, res) => {
     }
 
 });
+app.patch("/tasks/:id", async (req, res) => {
+
+    try {
+
+        const updatedTask = await Task.findByIdAndUpdate(
+            req.params.id,
+            {
+                task: req.body.task
+            },
+            { new: true }
+        );
+
+        res.json(updatedTask);
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});//update a task -MongoDB
+app.delete("/tasks/:id", async (req, res) => {
+
+    try {
+
+        await Task.findByIdAndDelete(req.params.id);
+
+        res.json({
+            message: "Task deleted successfully"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: error.message
+        });
+
+    }
+
+});//Delete a task - MongoDB
 
 
 /*
