@@ -110,7 +110,7 @@ app.patch("/tasks/:id", async (req, res) => {
             {
                 task: req.body.task
             },
-            { new: true }
+            { returnDocument: "after" }
         );
 
         res.json(updatedTask);
