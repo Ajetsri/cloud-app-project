@@ -144,68 +144,6 @@ app.delete("/tasks/:id", async (req, res) => {
 
 });//Delete a task - MongoDB
 
-
-/*
-// below is for taking array data directly 
-//navigates to particular task based on id -1,2,..-/tasks/1
-app.post("/tasks", (req, res) => {
-
-    const newTask = {
-        id: tasks.length + 1,
-        task: req.body.task
-    };
-
-    tasks.push(newTask);
-
-    res.status(201).json({
-        message: "Task added successfully",
-        task: newTask
-    });
-
-});//Post Request
-app.delete("/tasks/:id", (req, res) => {
-
-    const taskId = parseInt(req.params.id);
-
-    const index = tasks.findIndex(
-        task => task.id === taskId
-    );
-
-    if(index === -1) {
-        return res.status(404).json({
-            message: "Task not found"
-        });
-    }
-
-    tasks.splice(index, 1);
-
-    res.json({
-        message: "Task deleted successfully"
-    });
-
-});//Delete Request
-
-app.patch("/tasks/:id", (req, res) => {
-
-    const taskId = parseInt(req.params.id);
-
-    const task = tasks.find(
-        task => task.id === taskId
-    );
-
-    if(!task){
-        return res.status(404).json({
-            message:"Task not found"
-        });
-    }
-
-    task.task = req.body.task;
-
-    res.json(task);
-
-});
-*/
-//patch
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
