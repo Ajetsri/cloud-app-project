@@ -83,6 +83,11 @@ app.get("/tasks/:id", async (req, res) => {
 //using MongoDB post
 
 app.post("/tasks", async (req, res)  => {
+    if(!req.body.task){
+        return res.status(400).json({
+            message: "Task is required"
+        });
+    }
 
     try {
 
@@ -102,6 +107,11 @@ app.post("/tasks", async (req, res)  => {
 
 });
 app.patch("/tasks/:id", async (req, res) => {
+    if(!req.body.task){
+        return res.status(400).json({
+            message: "Task is required"
+        });
+    }
 
     try {
 
