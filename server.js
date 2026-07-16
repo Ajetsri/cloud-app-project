@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
     res.send("Cloud App Running Successfully 🚀");
 });
 app.get("/about",(req, res)=>{
-    res.send("Tjs s my frst project");
+    res.send("Its my frst project");
 });
 app.get("/Task",(req, res)=>{
     res.send("<h1>trying connect dots....<h1>");
